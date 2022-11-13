@@ -48,9 +48,9 @@ public class AVLNode extends Node<AVLNode>{
 }
 
 
-abstract class Node<T extends Node> {
+abstract class Node<N extends Node<N>> {
     private int key;
-    protected T left, right;
+    protected N left, right;
 
     public Node() {
 
@@ -60,7 +60,7 @@ abstract class Node<T extends Node> {
         this.key = key;
     }
 
-    public Node(int key, T left, T right) {
+    public Node(int key, N left, N right) {
         this.key = key;
         this.left = left;
         this.right = right;
@@ -74,19 +74,19 @@ abstract class Node<T extends Node> {
         this.key = key;
     }
 
-    public T getLeft() {
+    public N getLeft() {
         return left;
     }
 
-    public void setLeft(T left) {
+    public void setLeft(N left) {
         this.left = left;
     }
 
-    public T getRight() {
+    public N getRight() {
         return right;
     }
 
-    public void setRight(T right) {
+    public void setRight(N right) {
         this.right = right;
     }
 }
