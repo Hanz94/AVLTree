@@ -27,7 +27,7 @@ public class AVLNode extends Node<AVLNode>{
     }
 
     public int getBalance(){
-        return this.left.getHeight() - this.right.getHeight();
+        return (this.left != null? this.left.getHeight():0) - (this.right != null? this.right.getHeight(): 0);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class AVLNode extends Node<AVLNode>{
     }
 
     private void calculateHeight(){
-        this.height = Math.max(left != null? left.getHeight():0, right != null? right.getHeight():0);
+        this.height = 1 + Math.max(this.left != null? this.left.getHeight():0, this.right != null? this.right.getHeight():0);
     }
 }
 
