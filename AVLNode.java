@@ -15,7 +15,7 @@ public class AVLNode extends Node<AVLNode>{
 
     public AVLNode(int key, AVLNode left, AVLNode right) {
         super(key, left, right);
-        this.height = calculateHeight(left, right);
+        calculateHeight();
     }
 
     public int getHeight() {
@@ -27,23 +27,23 @@ public class AVLNode extends Node<AVLNode>{
     }
 
     public int getBalance(){
-        return ((AVLNode)this.left).getHeight() - ((AVLNode)this.right).getHeight();
+        return this.left.getHeight() - this.right.getHeight();
     }
 
     @Override
     public void setLeft(AVLNode left) {
         super.setLeft(left);
-        calculateHeight(left, this.right);
+        calculateHeight();
     }
 
     @Override
     public void setRight(AVLNode right) {
         super.setRight(right);
-        calculateHeight(this.left, right);
+        calculateHeight();
     }
 
-    private int calculateHeight(AVLNode left, AVLNode right){
-        return 1 + Math.max(left != null? left.getHeight():0, right != null? right.getHeight():0);
+    private void calculateHeight(){
+        this.height = Math.max(left != null? left.getHeight():0, right != null? right.getHeight():0);
     }
 }
 
