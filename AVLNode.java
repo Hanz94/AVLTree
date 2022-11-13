@@ -1,16 +1,21 @@
 
-public class AVLNode extends Node{
+public class AVLNode extends Node<AVLNode>{
 
     private int height;
 
-    public AVLNode(int key, int height) {
-        super(key);
-        this.height = height;
+    public AVLNode() {
+        super();
+        this.height = 1;
     }
 
-    public AVLNode(int key, Node left, Node right, int height) {
+    public AVLNode(int key) {
+        super(key);
+        this.height = 1;
+    }
+
+    public AVLNode(int key, AVLNode left, AVLNode right) {
         super(key, left, right);
-        this.height = height;
+        this.height = calculateHeight(left, right);
     }
 
     public int getHeight() {
@@ -24,23 +29,42 @@ public class AVLNode extends Node{
     public int getBalance(){
         return ((AVLNode)this.left).getHeight() - ((AVLNode)this.right).getHeight();
     }
+
+    @Override
+    public void setLeft(AVLNode left) {
+        super.setLeft(left);
+        calculateHeight(left, this.right);
+    }
+
+    @Override
+    public void setRight(AVLNode right) {
+        super.setRight(right);
+        calculateHeight(this.left, right);
+    }
+
+    private int calculateHeight(AVLNode left, AVLNode right){
+        return 1 + Math.max(left != null? left.getHeight():0, right != null? right.getHeight():0);
+    }
 }
 
 
-abstract class Node {
+abstract class Node<T extends Node> {
     private int key;
-    protected Node left, right;
+    protected T left, right;
+
+    public Node() {
+
+    }
 
     public Node(int key) {
         this.key = key;
     }
 
-    public Node(int key, Node left, Node right) {
+    public Node(int key, T left, T right) {
         this.key = key;
         this.left = left;
         this.right = right;
     }
-
 
     public int getKey() {
         return key;
@@ -50,19 +74,19 @@ abstract class Node {
         this.key = key;
     }
 
-    public Node getLeft() {
+    public T getLeft() {
         return left;
     }
 
-    public void setLeft(Node left) {
+    public void setLeft(T left) {
         this.left = left;
     }
 
-    public Node getRight() {
+    public T getRight() {
         return right;
     }
 
-    public void setRight(Node right) {
+    public void setRight(T right) {
         this.right = right;
     }
 }
