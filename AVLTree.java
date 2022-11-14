@@ -3,7 +3,7 @@ import java.util.Objects;
 import java.util.Stack;
 import java.util.function.Supplier;
 
-public class AVLTree extends Tree<AVLNode>{
+public class AVLTree extends Tree<AVLNode> {
 
     public AVLTree() {
         super(AVLNode::new);
@@ -18,10 +18,10 @@ public class AVLTree extends Tree<AVLNode>{
         return super.insert(key);
     }
 
-    @Override
-    public boolean delete() {
-        return super.delete();
-    }
+//    @Override
+//    public Stack<AVLNode> delete(int key) {
+//        return super.delete(key);
+//    }
 }
 
 
@@ -45,13 +45,14 @@ abstract class Tree<T extends Node<T>> {
 
     public Stack<T> insert(int key){
         Stack<T> stk = new Stack<>();
-        insert(key, this.root, stk);
+        this.root = insert(key, this.root, stk);
         return stk;
     }
 
     private T insert(int key, T root, Stack<T> stk){
         if(root == null){
             T newNode = ctor.get();
+            newNode.setKey(key);
             stk.push(newNode);
             return newNode;
         }
@@ -61,7 +62,7 @@ abstract class Tree<T extends Node<T>> {
         }
         else {
             stk.push(root.getRight());
-            insert(key, root.getRight(), stk);
+            root.setRight(insert(key, root.getRight(), stk));
         }
         return root;
     }
@@ -72,12 +73,10 @@ abstract class Tree<T extends Node<T>> {
     }
 
     public int search(int key){
-
         return key;
     }
 
     public List<Integer> search(int smallKey, int bigKey){
-
         return null;
     }
 
