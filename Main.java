@@ -11,18 +11,17 @@ public class Main {
 
         System.out.println(testAvlTree);
 
-//        System.out.println("Height at root: " + testAvlTree);
-//        System.out.println("Balance at root: " + rootNode.getBalance());
-//
-//        rootNode.setLeft(new AVLNode(2));
-//
-//        System.out.println("Height at root: " + rootNode.getHeight());
-//        System.out.println("Balance at root: " + rootNode.getBalance());
-//
-//        rootNode.getLeft().setLeft(new AVLNode(3));
-//
-//        System.out.println("Height at root: " + rootNode.getHeight());
-//        System.out.println("Balance at root: " + rootNode.getBalance());
+        testAvlTree.delete(3);
+
+        System.out.println(testAvlTree);
+
+        testAvlTree.delete(4);
+
+        System.out.println(testAvlTree);
+
+        testAvlTree.insert(4);
+
+        System.out.println(testAvlTree);
 
     }
 
