@@ -15,29 +15,31 @@ public class AVLTree extends BinaryTree<AVLNode> {
     public Stack<AVLNode> insert(int key) {
         Stack<AVLNode> nodeTrace = super.insert(key);
 
-        for (AVLNode avlNode : nodeTrace) {
-            System.out.println(avlNode);
+        if (nodeTrace.size() > 2) {
+            AVLNode grandChild = nodeTrace.pop();
+            AVLNode child = nodeTrace.pop();
+            AVLNode aNode = nodeTrace.pop();
+            AVLNode root = balanceTree(grandChild, child, aNode);
+            while ( root == null && nodeTrace.size() > 0) {
+                grandChild = child;
+                child = aNode;
+                aNode = nodeTrace.pop();
+                root = balanceTree(grandChild, child, aNode);
+            }
+            if(root != null){
+                try {
+                    AVLNode parent = nodeTrace.pop();
+                    if (parent.getKey() > root.getKey()) {
+                        parent.setLeft(root);
+                    } else {
+                        parent.setRight(root);
+                    }
+                } catch (EmptyStackException e){
+                    return null;
+                }
+            }
         }
-
         return null;
-//        int balance = getBalance(node);
-//
-//
-//        if (balance > 1 && key < node.left.key)
-//            return rightRotate(node);
-//
-//        if (balance < -1 && key > node.right.key)
-//            return leftRotate(node);
-//
-//        if (balance > 1 && key > node.left.key) {
-//            node.left = leftRotate(node.left);
-//            return rightRotate(node);
-//        }
-
-//        if (balance < -1 && key < node.right.key) {
-//            node.right = rightRotate(node.right);
-//            return leftRotate(node);
-//        }
     }
 
     @Override
@@ -45,9 +47,47 @@ public class AVLTree extends BinaryTree<AVLNode> {
         return super.delete(key);
     }
 
-    private boolean balanceTree(AVLNode node){
-        return true;
+    private AVLNode balanceTree(AVLNode grandChild, AVLNode child, AVLNode aNode){
+        int balance = aNode.getBalance();
+
+        // Case 1 : LL
+        if (balance > 1 && grandChild.getKey() < child.getKey()){
+            return rightRotate(aNode);
+        }
+        // Case 2 : RR
+        if (balance < -1 && grandChild.getKey() > child.getKey()){
+            return leftRotate(aNode);
+        }
+        // Case 3 : LR
+        if (balance > 1 && grandChild.getKey() > child.getKey()) {
+            aNode.setLeft(leftRotate(child));
+            return rightRotate(aNode);
+        }
+        // Case 4 : RL
+        if (balance < -1 && grandChild.getKey() < child.getKey()) {
+            aNode.setRight(rightRotate(child));
+            return leftRotate(aNode);
+        }
+        return null;
     }
+
+
+    private AVLNode rightRotate(AVLNode root) {
+        AVLNode child = root.getLeft();
+        AVLNode childRSubTree = child.getRight();
+        child.setRight(root);
+        root.setLeft(childRSubTree);
+        return child;
+    }
+
+    private AVLNode leftRotate(AVLNode root) {
+        AVLNode child = root.getRight();
+        AVLNode childLSubTree = child.getLeft();
+        child.setLeft(root);
+        root.setRight(childLSubTree);
+        return child;
+    }
+
 }
 
 
