@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Stack;
+import java.util.*;
 import java.util.function.Supplier;
 
 public class AVLTree extends BinaryTree<AVLNode> {
@@ -16,12 +13,40 @@ public class AVLTree extends BinaryTree<AVLNode> {
 
     @Override
     public Stack<AVLNode> insert(int key) {
-        return super.insert(key);
+        Stack<AVLNode> nodeTrace = super.insert(key);
+
+        for (AVLNode avlNode : nodeTrace) {
+            System.out.println(avlNode);
+        }
+
+        return null;
+//        int balance = getBalance(node);
+//
+//
+//        if (balance > 1 && key < node.left.key)
+//            return rightRotate(node);
+//
+//        if (balance < -1 && key > node.right.key)
+//            return leftRotate(node);
+//
+//        if (balance > 1 && key > node.left.key) {
+//            node.left = leftRotate(node.left);
+//            return rightRotate(node);
+//        }
+
+//        if (balance < -1 && key < node.right.key) {
+//            node.right = rightRotate(node.right);
+//            return leftRotate(node);
+//        }
     }
 
     @Override
     public Stack<AVLNode> delete(int key) {
         return super.delete(key);
+    }
+
+    private boolean balanceTree(AVLNode node){
+        return true;
     }
 }
 
@@ -60,18 +85,19 @@ abstract class BinaryTree<T extends Node<T>> {
 
 
     private T insert(int key, T root, Stack<T> stk){
+        if (root != null) {
+            stk.push(root);
+        }
         if(root == null){
-            T newNode = ctor.get();
-            newNode.setKey(key);
-            stk.push(newNode);
-            return newNode;
+            root = ctor.get();
+            root.setKey(key);
+            stk.push(root);
+            return root;
         }
         else if (key < root.getKey()){
-            stk.push(root.getLeft());
             root.setLeft(insert(key, root.getLeft(), stk));
         }
         else {
-            stk.push(root.getRight());
             root.setRight(insert(key, root.getRight(), stk));
         }
         return root;
