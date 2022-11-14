@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.Stack;
 import java.util.function.Supplier;
 
-public class AVLTree extends Tree<AVLNode> {
+public class AVLTree extends BinaryTree<AVLNode> {
 
     public AVLTree() {
         super(AVLNode::new);
@@ -26,7 +26,7 @@ public class AVLTree extends Tree<AVLNode> {
 }
 
 
-abstract class Tree<T extends Node<T>> {
+abstract class BinaryTree<T extends Node<T>> {
 
     private T root;
     private final Supplier<? extends T> ctor;
@@ -51,6 +51,13 @@ abstract class Tree<T extends Node<T>> {
         List<Integer> keys = new ArrayList<>();
         searchRange(smallKey, bigKey, this.root, keys);
         return keys;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        traversePreOrder(sb,"","", this.root);
+        return sb.toString();
     }
 
     private T insert(int key, T root, Stack<T> stk){
@@ -134,7 +141,23 @@ abstract class Tree<T extends Node<T>> {
         return max;
     }
 
-    protected Tree(Supplier<? extends T> ctor) {
+    public void traversePreOrder(StringBuilder sb, String padding, String pointer, T node) {
+        if (node != null) {
+            sb.append(padding);
+            sb.append(pointer);
+            sb.append(node.getKey());
+            sb.append("\n");
+
+            String paddingForBoth = padding + "│  ";
+            String pointerForRight = "└──";
+            String pointerForLeft = (node.getRight() != null) ? "├──" : "└──";
+
+            traversePreOrder(sb, paddingForBoth, pointerForLeft, node.getLeft());
+            traversePreOrder(sb, paddingForBoth, pointerForRight, node.getRight());
+        }
+    }
+
+    protected BinaryTree(Supplier<? extends T> ctor) {
         this.ctor = Objects.requireNonNull(ctor);
         this.root = null;
     }
