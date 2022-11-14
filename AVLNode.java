@@ -89,4 +89,11 @@ abstract class Node<N extends Node<N>> {
     public void setRight(N right) {
         this.right = right;
     }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "key=" + key +
+                '}';
+    }
 }
