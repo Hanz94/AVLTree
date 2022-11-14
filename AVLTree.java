@@ -1,26 +1,84 @@
+import java.util.List;
+import java.util.Objects;
+import java.util.Stack;
+import java.util.function.Supplier;
 
 public class AVLTree extends Tree<AVLNode>{
 
+    public AVLTree() {
+        super(AVLNode::new);
+    }
 
-    public AVLTree(AVLNode root) {
-        super(root);
+    public static AVLTree initialize(){
+        return new AVLTree();
+    }
+
+    @Override
+    public Stack<AVLNode> insert(int key) {
+        return super.insert(key);
+    }
+
+    @Override
+    public boolean delete() {
+        return super.delete();
     }
 }
 
 
-abstract class Tree<N extends Node<N>> {
+abstract class Tree<T extends Node<T>> {
 
-     private N root;
+    private T root;
+    private final Supplier<? extends T> ctor;
 
-    public Tree(N root) {
-        this.root = root;
+    protected Tree(Supplier<? extends T> ctor) {
+        this.ctor = Objects.requireNonNull(ctor);
+        this.root = null;
     }
 
-    public N getRoot() {
+    protected T getRoot() {
         return root;
     }
 
-    public void setRoot(N root) {
+    private void setRoot(T root) {
         this.root = root;
     }
+
+    public Stack<T> insert(int key){
+        Stack<T> stk = new Stack<>();
+        insert(key, this.root, stk);
+        return stk;
+    }
+
+    private T insert(int key, T root, Stack<T> stk){
+        if(root == null){
+            T newNode = ctor.get();
+            stk.push(newNode);
+            return newNode;
+        }
+        else if (key < root.getKey()){
+            stk.push(root.getLeft());
+            root.setLeft(insert(key, root.getLeft(), stk));
+        }
+        else {
+            stk.push(root.getRight());
+            insert(key, root.getRight(), stk);
+        }
+        return root;
+    }
+
+    public boolean delete(){
+
+        return false;
+    }
+
+    public int search(int key){
+
+        return key;
+    }
+
+    public List<Integer> search(int smallKey, int bigKey){
+
+        return null;
+    }
+
 }
