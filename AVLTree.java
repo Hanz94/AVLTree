@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Stack;
@@ -46,8 +47,23 @@ abstract class Tree<T extends Node<T>> {
         return search(key, this.root);
     }
 
-    public List<Integer> search(int smallKey, int bigKey){
-        return null;
+    public List<Integer> searchRange(int smallKey, int bigKey){
+        List<Integer> keys = new ArrayList<>();
+        searchRange(smallKey, bigKey, this.root, keys);
+        return keys;
+    }
+
+    void searchRange(int smallKey, int bigKey, T root, List<Integer> keys) {
+        if (root == null) {
+            return;
+        }
+        if (smallKey < root.getKey()) {
+            searchRange( smallKey, bigKey, root.getLeft(), keys);
+        }
+        if (smallKey <= root.getKey() && bigKey >= root.getKey()) {
+            keys.add(root.getKey());
+        }
+        searchRange(smallKey, bigKey, root.getRight(), keys);
     }
 
     private T search(int key, T root){
