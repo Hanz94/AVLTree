@@ -19,12 +19,12 @@ public class AVLTree extends BinaryTree<AVLNode> {
             AVLNode grandChild = nodeTrace.pop();
             AVLNode child = nodeTrace.pop();
             AVLNode aNode = nodeTrace.pop();
-            AVLNode root = balanceTree(grandChild, child, aNode);
+            AVLNode root = balanceTreeOnInsert(grandChild, child, aNode);
             while ( root == null && nodeTrace.size() > 0) {
                 grandChild = child;
                 child = aNode;
                 aNode = nodeTrace.pop();
-                root = balanceTree(grandChild, child, aNode);
+                root = balanceTreeOnInsert(grandChild, child, aNode);
             }
             if(root != null){
                 try {
@@ -35,7 +35,7 @@ public class AVLTree extends BinaryTree<AVLNode> {
                         parent.setRight(root);
                     }
                 } catch (EmptyStackException e){
-                    return null;
+                    setRoot(root);
                 }
             }
         }
@@ -44,10 +44,26 @@ public class AVLTree extends BinaryTree<AVLNode> {
 
     @Override
     public Stack<AVLNode> delete(int key) {
-        return super.delete(key);
+        Stack<AVLNode> nodeTrace =  super.delete(key);
+        while ( nodeTrace.size() > 0) {
+            AVLNode root = balanceTreeOnDelete(nodeTrace.pop());
+            if(root != null){
+                try {
+                    AVLNode parent = nodeTrace.peek();
+                    if (parent.getKey() > root.getKey()) {
+                        parent.setLeft(root);
+                    } else {
+                        parent.setRight(root);
+                    }
+                } catch (EmptyStackException e){
+                    setRoot(root);
+                }
+            }
+        }
+        return null;
     }
 
-    private AVLNode balanceTree(AVLNode grandChild, AVLNode child, AVLNode aNode){
+    private AVLNode balanceTreeOnInsert(AVLNode grandChild, AVLNode child, AVLNode aNode){
         int balance = aNode.getBalance();
 
         // Case 1 : LL
@@ -63,9 +79,34 @@ public class AVLTree extends BinaryTree<AVLNode> {
             aNode.setLeft(leftRotate(child));
             return rightRotate(aNode);
         }
+
         // Case 4 : RL
         if (balance < -1 && grandChild.getKey() < child.getKey()) {
             aNode.setRight(rightRotate(child));
+            return leftRotate(aNode);
+        }
+        return null;
+    }
+
+    private AVLNode balanceTreeOnDelete(AVLNode aNode){
+        int balance = aNode.getBalance();
+
+        // Case 1 : R0 and R1
+        if ( balance > 1 && aNode.getLeft().getBalance() >= 0){
+            return rightRotate(aNode);
+        }
+        // Case 2 : L-1 and L0
+        if (balance < -1 && aNode.getRight().getBalance() <= 0){
+            return leftRotate(aNode);
+        }
+        // Case 3 : R-1
+        if (balance > 1 && aNode.getLeft().getBalance() < 0) {
+            aNode.setLeft(leftRotate(aNode.getLeft()));
+            return rightRotate(aNode);
+        }
+        // Case 4 : L
+        if (balance < -1 && aNode.getRight().getBalance() > 0) {
+            aNode.setRight(rightRotate(aNode.getRight()));
             return leftRotate(aNode);
         }
         return null;
@@ -144,27 +185,30 @@ abstract class BinaryTree<T extends Node<T>> {
     }
 
     private T delete(int key, T root, Stack<T> stk) {
+
         if (root == null) {
-            return root;
-        }
-        else if (key < root.getKey()){
-            stk.push(root.getLeft());
-            root.setLeft(delete(key, root.getLeft(), stk));
-        }
-        else if (key > root.getKey()){
-            stk.push(root.getRight());
-            root.setRight(delete(key, root.getRight(), stk));
+            return null;
         }
         else {
-            if (root.getLeft() == null) {
-                return root.getRight();
+            if (key < root.getKey()){
+                stk.push(root);
+                root.setLeft(delete(key, root.getLeft(), stk));
             }
-            else if (root.getRight() == null) {
-                return root.getLeft();
+            else if (key > root.getKey()){
+                stk.push(root);
+                root.setRight(delete(key, root.getRight(), stk));
             }
             else {
-                root.setKey(getMax(root.getLeft()));
-                root.setLeft(delete(root.getKey(), root.getLeft(), stk));
+                if (root.getLeft() == null) {
+                    return root.getRight();
+                }
+                else if (root.getRight() == null) {
+                    return root.getLeft();
+                }
+                else {
+                    root.setKey(getMax(root.getLeft()));
+                    root.setLeft(delete(root.getKey(), root.getLeft(), stk));
+                }
             }
         }
         return root;
@@ -256,7 +300,7 @@ abstract class BinaryTree<T extends Node<T>> {
         return root;
     }
 
-    private void setRoot(T root) {
+    protected void setRoot(T root) {
         this.root = root;
     }
 
