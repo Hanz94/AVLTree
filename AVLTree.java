@@ -30,23 +30,24 @@ abstract class Tree<T extends Node<T>> {
     private T root;
     private final Supplier<? extends T> ctor;
 
-    protected Tree(Supplier<? extends T> ctor) {
-        this.ctor = Objects.requireNonNull(ctor);
-        this.root = null;
-    }
-
-    protected T getRoot() {
-        return root;
-    }
-
-    private void setRoot(T root) {
-        this.root = root;
-    }
-
     public Stack<T> insert(int key){
         Stack<T> stk = new Stack<>();
         this.root = insert(key, this.root, stk);
         return stk;
+    }
+
+    public Stack<T> delete(int key) {
+        Stack<T> stk = new Stack<>();
+        delete(key, this.root, stk);
+        return stk;
+    }
+
+    public int search(int key){
+        return key;
+    }
+
+    public List<Integer> search(int smallKey, int bigKey){
+        return null;
     }
 
     private T insert(int key, T root, Stack<T> stk){
@@ -65,12 +66,6 @@ abstract class Tree<T extends Node<T>> {
             root.setRight(insert(key, root.getRight(), stk));
         }
         return root;
-    }
-
-    public Stack<T> delete(int key) {
-        Stack<T> stk = new Stack<>();
-        delete(key, this.root, stk);
-        return stk;
     }
 
     private T delete(int key, T root, Stack<T> stk) {
@@ -100,7 +95,7 @@ abstract class Tree<T extends Node<T>> {
         return root;
     }
 
-    int getMax(T root)
+    private int getMax(T root)
     {
         int max = root.getKey();
         while (root.getRight() != null)
@@ -111,12 +106,17 @@ abstract class Tree<T extends Node<T>> {
         return max;
     }
 
-    public int search(int key){
-        return key;
+    protected Tree(Supplier<? extends T> ctor) {
+        this.ctor = Objects.requireNonNull(ctor);
+        this.root = null;
     }
 
-    public List<Integer> search(int smallKey, int bigKey){
-        return null;
+    protected T getRoot() {
+        return root;
+    }
+
+    private void setRoot(T root) {
+        this.root = root;
     }
 
 }
