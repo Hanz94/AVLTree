@@ -55,10 +55,9 @@ abstract class BinaryTree<T extends Node<T>> {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        traversePreOrder(sb,"","", this.root);
-        return sb.toString();
+        return traversePreOrder(this.root);
     }
+
 
     private T insert(int key, T root, Stack<T> stk){
         if(root == null){
@@ -141,19 +140,44 @@ abstract class BinaryTree<T extends Node<T>> {
         return max;
     }
 
-    public void traversePreOrder(StringBuilder sb, String padding, String pointer, T node) {
+    public String traversePreOrder(T root) {
+
+        if (root == null) {
+            return "";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(root.getKey());
+
+        String pointerRight = "└──";
+        String pointerLeft = (root.getRight() != null) ? "├──" : "└──";
+
+        traverseNodes(sb, "", pointerLeft, root.getLeft(), root.getRight() != null);
+        traverseNodes(sb, "", pointerRight, root.getRight(), false);
+
+        return sb.toString();
+    }
+
+    private void traverseNodes(StringBuilder sb, String padding, String pointer, T node, boolean hasRightSibling) {
         if (node != null) {
+            sb.append("\n");
             sb.append(padding);
             sb.append(pointer);
             sb.append(node.getKey());
-            sb.append("\n");
 
-            String paddingForBoth = padding + "│  ";
-            String pointerForRight = "└──";
-            String pointerForLeft = (node.getRight() != null) ? "├──" : "└──";
+            StringBuilder paddingBuilder = new StringBuilder(padding);
+            if (hasRightSibling) {
+                paddingBuilder.append("│  ");
+            } else {
+                paddingBuilder.append("   ");
+            }
 
-            traversePreOrder(sb, paddingForBoth, pointerForLeft, node.getLeft());
-            traversePreOrder(sb, paddingForBoth, pointerForRight, node.getRight());
+            String paddingForBoth = paddingBuilder.toString();
+            String pointerRight = "└──";
+            String pointerLeft = (node.getRight() != null) ? "├──" : "└──";
+
+            traverseNodes(sb, paddingForBoth, pointerLeft, node.getLeft(), node.getRight() != null);
+            traverseNodes(sb, paddingForBoth, pointerRight, node.getRight(), false);
         }
     }
 
