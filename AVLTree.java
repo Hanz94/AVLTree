@@ -42,12 +42,24 @@ abstract class Tree<T extends Node<T>> {
         return stk;
     }
 
-    public int search(int key){
-        return key;
+    public T search(int key) {
+        return search(key, this.root);
     }
 
     public List<Integer> search(int smallKey, int bigKey){
         return null;
+    }
+
+    private T search(int key, T root){
+        if(root == null || key == root.getKey()){
+            return root;
+        }
+        else if (key < root.getKey()){
+            return search(key, root.getLeft());
+        }
+        else {
+            return search(key, root.getRight());
+        }
     }
 
     private T insert(int key, T root, Stack<T> stk){
