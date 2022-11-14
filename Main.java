@@ -9,7 +9,9 @@ public class Main {
         testAvlTree.insert(1);
         testAvlTree.insert(10);
 
-        System.out.println("Height at root: " + testAvlTree);
+        System.out.println(testAvlTree);
+
+//        System.out.println("Height at root: " + testAvlTree);
 //        System.out.println("Balance at root: " + rootNode.getBalance());
 //
 //        rootNode.setLeft(new AVLNode(2));
