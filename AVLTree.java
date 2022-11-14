@@ -19,10 +19,10 @@ public class AVLTree extends Tree<AVLNode> {
         return super.insert(key);
     }
 
-//    @Override
-//    public Stack<AVLNode> delete(int key) {
-//        return super.delete(key);
-//    }
+    @Override
+    public Stack<AVLNode> delete(int key) {
+        return super.delete(key);
+    }
 }
 
 
@@ -51,31 +51,6 @@ abstract class Tree<T extends Node<T>> {
         List<Integer> keys = new ArrayList<>();
         searchRange(smallKey, bigKey, this.root, keys);
         return keys;
-    }
-
-    void searchRange(int smallKey, int bigKey, T root, List<Integer> keys) {
-        if (root == null) {
-            return;
-        }
-        if (smallKey < root.getKey()) {
-            searchRange( smallKey, bigKey, root.getLeft(), keys);
-        }
-        if (smallKey <= root.getKey() && bigKey >= root.getKey()) {
-            keys.add(root.getKey());
-        }
-        searchRange(smallKey, bigKey, root.getRight(), keys);
-    }
-
-    private T search(int key, T root){
-        if(root == null || key == root.getKey()){
-            return root;
-        }
-        else if (key < root.getKey()){
-            return search(key, root.getLeft());
-        }
-        else {
-            return search(key, root.getRight());
-        }
     }
 
     private T insert(int key, T root, Stack<T> stk){
@@ -121,6 +96,31 @@ abstract class Tree<T extends Node<T>> {
             }
         }
         return root;
+    }
+
+    private T search(int key, T root){
+        if(root == null || key == root.getKey()){
+            return root;
+        }
+        else if (key < root.getKey()){
+            return search(key, root.getLeft());
+        }
+        else {
+            return search(key, root.getRight());
+        }
+    }
+
+    private void searchRange(int smallKey, int bigKey, T root, List<Integer> keys) {
+        if (root == null) {
+            return;
+        }
+        if (smallKey < root.getKey()) {
+            searchRange( smallKey, bigKey, root.getLeft(), keys);
+        }
+        if (smallKey <= root.getKey() && bigKey >= root.getKey()) {
+            keys.add(root.getKey());
+        }
+        searchRange(smallKey, bigKey, root.getRight(), keys);
     }
 
     private int getMax(T root)
