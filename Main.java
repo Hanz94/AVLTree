@@ -4,6 +4,10 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
+        String filename = "input.txt";
+        if (args.length > 0) {
+            filename = args[0];
+        }
         AVLTree avlTree = null;
         BufferedReader reader;
         BufferedWriter writer;
