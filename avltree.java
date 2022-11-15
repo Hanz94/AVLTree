@@ -5,7 +5,7 @@ import java.util.List;
  * This program, contains a small <a href="https://en.wikipedia.org/wiki/AVL_tree">AVL Tree</a>.
  * AVLTree class is the entrypoint of the program, it handle input output file operations and decoding of the input file.
  */
-public class AVLTree {
+public class avltree {
 
     /**
      * This is the main method of the program.
