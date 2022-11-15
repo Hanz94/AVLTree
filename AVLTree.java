@@ -3,7 +3,7 @@ import java.util.function.Supplier;
 
 public class AVLTree extends BinaryTree<AVLNode> {
 
-    public AVLTree() {
+    private AVLTree() {
         super(AVLNode::new);
     }
 
@@ -149,8 +149,9 @@ abstract class BinaryTree<T extends Node<T>> {
         return stk;
     }
 
-    public T search(int key) {
-        return search(key, this.root);
+    public Integer search(int key) {
+        T searchedNode = search(key, this.root);
+        return searchedNode != null ? searchedNode.getKey() : null;
     }
 
     public List<Integer> searchRange(int smallKey, int bigKey){
