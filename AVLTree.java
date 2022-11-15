@@ -2,16 +2,23 @@ import java.io.*;
 import java.util.List;
 
 /**
- * dtest
+ * This program, contains a small <a href="https://en.wikipedia.org/wiki/AVL_tree">AVL Tree</a>.
+ * AVLTree class is the entrypoint of the program, it handle input output file operations and decoding of the input file.
  */
 public class AVLTree {
 
+    /**
+     * This is the main method of the program.
+     * @param args takes one command line argument for input file, defaults to "input_file.txt" if not specified.
+     * This method call decodeAndRunCommands() to decode the input file line by line run respective commands on AVL tree.
+     * The final output is written to "output_file.txt".
+     */
     public static void main(String[] args) {
         String filename = "input_file.txt";
         if (args.length > 0) {
             filename = args[0];
         }
-        AVLBinaryTree avlBinaryTree = null;
+        AVLBST avlBinaryTree = null;
         BufferedReader reader;
         BufferedWriter writer;
         try {
@@ -29,11 +36,19 @@ public class AVLTree {
         }
     }
 
-    public static AVLBinaryTree decodeAndRunCommands(String command, AVLBinaryTree avlBinaryTree, BufferedWriter writer) throws IOException {
+    /**
+     * Takes one command and run the respective operation on AVL tree. Supported commands are Initialize, Insert, Delete and Search.
+     * @param command Command to run as a string ( eg -: Initialize(), Insert (60), Delete(23), Search(23), Search(2,10)).
+     * @param avlBinaryTree The AVL tree before the operation (defaults to null at the start).
+     * @param writer BufferedWriter representing the output file.
+     * @return Returns the AVL tree after the operation.
+     * @throws IOException Signals that an I/O exception of some sort has occurred regarding output file (eg -: output file is not writable)
+     */
+    public static AVLBST decodeAndRunCommands(String command, AVLBST avlBinaryTree, BufferedWriter writer) throws IOException {
         String[] cmd = command.split("[\\(\\)]");
         switch(cmd[0]) {
             case "Initialize":
-                avlBinaryTree = AVLBinaryTree.initialize();
+                avlBinaryTree = AVLBST.initialize();
             break;
             case "Insert":
                 avlBinaryTree.insert(Integer.parseInt(cmd[1]));
@@ -66,8 +81,11 @@ public class AVLTree {
         return avlBinaryTree;
     }
 
+    /**
+     * This method contains test cases to evaluate the implementation. Not called by the main program by default.
+     */
     public static void testAVLTree(){
-        AVLBinaryTree testAvlBinaryTree = AVLBinaryTree.initialize();
+        AVLBST testAvlBinaryTree = AVLBST.initialize();
         testAvlBinaryTree.insert(4);
         testAvlBinaryTree.insert(3);
         testAvlBinaryTree.insert(5);

@@ -1,4 +1,6 @@
-
+/**
+ * AVL node inherits from abstract tree node. Has an additional parameter of height in each node.
+ */
 public class AVLNode extends Node<AVLNode>{
 
     private int height;
@@ -15,6 +17,7 @@ public class AVLNode extends Node<AVLNode>{
 
     public AVLNode(int key, AVLNode left, AVLNode right) {
         super(key, left, right);
+        // calculate height
         calculateHeight();
     }
 
@@ -26,6 +29,10 @@ public class AVLNode extends Node<AVLNode>{
         this.height = height;
     }
 
+    /**
+     * get balance factor of the node.
+     * @return balance factor.
+     */
     public int getBalance(){
         return (this.left != null? this.left.getHeight():0) - (this.right != null? this.right.getHeight(): 0);
     }
@@ -33,21 +40,30 @@ public class AVLNode extends Node<AVLNode>{
     @Override
     public void setLeft(AVLNode left) {
         super.setLeft(left);
+        //recalculate height after change in child nodes
         calculateHeight();
     }
 
     @Override
     public void setRight(AVLNode right) {
         super.setRight(right);
+        //recalculate height after change in child nodes
         calculateHeight();
     }
 
+    /**
+     * calculate height of the node.
+     */
     private void calculateHeight(){
         this.height = 1 + Math.max(this.left != null? this.left.getHeight():0, this.right != null? this.right.getHeight():0);
     }
 }
 
-
+/**
+ * Represents a BST node.
+ * @param <N> generic parameter for any concrete node type that inherited from abstract {@link Node Node.class}. {@link AVLNode AVLNode}
+ *  *           is an example for a value N can take.
+ */
 abstract class Node<N extends Node<N>> {
     private int key;
     protected N left, right;
