@@ -25,7 +25,7 @@ public class Main {
         BufferedWriter writer;
         try {
             reader = new BufferedReader(new FileReader(filename));
-            writer = new BufferedWriter(new FileWriter("output_file.txt", false));
+            writer = new BufferedWriter(new FileWriter("output.txt", false));
             String line = reader.readLine();
             while (line != null) {
                 avlBinaryTree = decodeAndRunCommands(line, avlBinaryTree, writer);
@@ -48,37 +48,31 @@ public class Main {
      */
     public static AVLTree decodeAndRunCommands(String command, AVLTree avlBinaryTree, BufferedWriter writer) throws IOException {
         String[] cmd = command.split("[()]");
-        switch(cmd[0]) {
-            case "Initialize":
-                avlBinaryTree = AVLTree.initialize();
-            break;
-            case "Insert":
-                avlBinaryTree.insert(Integer.parseInt(cmd[1]));
-                break;
-            case "Delete":
-                avlBinaryTree.delete(Integer.parseInt(cmd[1]));
-                break;
-            case "Search":
+        switch (cmd[0]) {
+            case "Initialize" -> avlBinaryTree = AVLTree.initialize();
+            case "Insert" -> avlBinaryTree.insert(Integer.parseInt(cmd[1]));
+            case "Delete" -> avlBinaryTree.delete(Integer.parseInt(cmd[1]));
+            case "Search" -> {
                 String[] range = cmd[1].split(",");
-                if(range.length > 1){
+                if (range.length > 1) {
                     List<Integer> results = avlBinaryTree.searchRange(Integer.parseInt(range[0]), Integer.parseInt(range[1]));
-                    if (!results.isEmpty()){
+                    if (!results.isEmpty()) {
                         writer.write(results.toString().replaceAll("[\\[\\] ]", ""));
-                    }else {
+                    } else {
                         writer.write("NULL");
                     }
-                }else {
+                } else {
                     Integer result = avlBinaryTree.search(Integer.parseInt(cmd[1]));
-                    if(result != null){
+                    if (result != null) {
                         writer.write(result.toString());
-                    }else {
+                    } else {
                         writer.write("NULL");
                     }
                 }
                 writer.newLine();
-                break;
-            default:
-                throw new RuntimeException(cmd[0] + " is not supported, only Initialize, Insert, Delete and Search are supported.");
+            }
+            default ->
+                    throw new RuntimeException(cmd[0] + " is not supported, only Initialize, Insert, Delete and Search are supported.");
         }
         return avlBinaryTree;
     }
