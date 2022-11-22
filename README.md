@@ -1,5 +1,5 @@
 # AVLTree
-Java implementation of self-balancing AVL trees
+###### Java implementation of self-balancing AVL tree
 
 
 
