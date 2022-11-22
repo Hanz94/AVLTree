@@ -11,16 +11,16 @@ public class Main {
 
     /**
      * This is the main method of the program.
-     * @param args takes one command line argument for input file, defaults to "input_file.txt" if not specified.
+     * @param args takes one command line argument for input file, defaults to "input.txt" if not specified.
      * This method call decodeAndRunCommands() to decode the input file line by line run respective commands on AVL tree.
      * The final output is written to "output_file.txt".
      */
     public static void main(String[] args) {
-        String filename = "input_file.txt";
+        String filename = "input.txt";
         if (args.length > 0) {
             filename = args[0];
         }
-        AVLBST avlBinaryTree = null;
+        AVLTree avlBinaryTree = null;
         BufferedReader reader;
         BufferedWriter writer;
         try {
@@ -46,11 +46,11 @@ public class Main {
      * @return Returns the AVL tree after the operation.
      * @throws IOException Signals that an I/O exception of some sort has occurred regarding output file (eg -: output file is not writable)
      */
-    public static AVLBST decodeAndRunCommands(String command, AVLBST avlBinaryTree, BufferedWriter writer) throws IOException {
-        String[] cmd = command.split("[\\(\\)]");
+    public static AVLTree decodeAndRunCommands(String command, AVLTree avlBinaryTree, BufferedWriter writer) throws IOException {
+        String[] cmd = command.split("[()]");
         switch(cmd[0]) {
             case "Initialize":
-                avlBinaryTree = AVLBST.initialize();
+                avlBinaryTree = AVLTree.initialize();
             break;
             case "Insert":
                 avlBinaryTree.insert(Integer.parseInt(cmd[1]));
@@ -87,7 +87,7 @@ public class Main {
      * This method contains test cases to evaluate the implementation. Not called by the main program by default.
      */
     public static void testAVLTree(){
-        AVLBST testAvlBinaryTree = AVLBST.initialize();
+        AVLTree testAvlBinaryTree = AVLTree.initialize();
         testAvlBinaryTree.insert(4);
         testAvlBinaryTree.insert(3);
         testAvlBinaryTree.insert(5);
