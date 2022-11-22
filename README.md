@@ -12,6 +12,35 @@ AVL tree is a self-balancing Binary Search Tree (BST) where the difference betwe
 5. Search (key1, key2): returns keys that are in the range key1 ≤key ≤key2
 
 
+AVL tree is a self-balancing Binary Search Tree (BST) where the difference between heights of left and right subtrees cannot be more than one for all nodes. In this project, I have developed and tested an AVL Tree. Since the AVL tree is an extension of standard BST The code is structured to maximize inheritance from the standard Binary Search Tree. 
+
+
+
+
+ This project is structured into three files and five classes as above :
+
+AVLNode.java: contains the node structures.
+Node: This is an abstract node to represent trees. 
+AVLNode: This is the concrete representation of Node used in the implementation of AVL Tree.
+AVLBST.java -: contains the AVL tree data structure.
+BinarySearchTree: Standard binary search tree with insert, delete and search.
+AVLBST: Concrete AVL tree implementation using BinarySearchTree as a superclass. In simple words, this class does the rebalancing using AVL properties on top of standard BST operations.
+avltree: main program function with file operations
+Makefile : to make the java classes.
+
+
+#### To Compile and Run
+
+`./makefile` or `javac greed.datastruct.Main.java`
+
+and
+
+`java avltree input_file_name`
+
+ 
+The rest of the section presents the function prototypes.
+
+
 # Documentation
 
 #### `public class Main`
