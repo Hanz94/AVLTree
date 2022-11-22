@@ -1,3 +1,5 @@
+package greed.datastruct;
+
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -5,7 +7,7 @@ import java.util.function.Supplier;
  * Data structure for AVL tree which inherits attributes and functions from its predecessor: Binary Search Tree (BST).
  * The code is structured to maximize inheritance from standard Binary Search Tree.
  * The Standard Binary Search Tree is in {@link BinarySearchTree BinarySerachTree.class}.
- * {@link AVLNode AVLNode}(concrete implementation of abstract {@link Node Node}) is used to represent single node in the tree.
+ * {@link AVLNode greed.datastruct.AVLNode}(concrete implementation of abstract {@link Node greed.datastruct.Node}) is used to represent single node in the tree.
  * Supports initialization, insertion, deletion and search on AVL tree while self-balancing after every inset and delete.
  */
 public class AVLBST extends BinarySearchTree<AVLNode> {
@@ -187,7 +189,7 @@ public class AVLBST extends BinarySearchTree<AVLNode> {
 
 /**
  * Data structure for Binary Search Tree. This class is presented as abstract class because actual instances of BST is not needed.
- * @param <T> generic parameter for any concrete node type that inherited from abstract {@link Node Node.class}. {@link AVLNode AVLNode}
+ * @param <T> generic parameter for any concrete node type that inherited from abstract {@link Node greed.datastruct.Node.class}. {@link AVLNode greed.datastruct.AVLNode}
  *           is an example for a value T can take.
  */
 abstract class BinarySearchTree<T extends Node<T>> {
@@ -220,7 +222,7 @@ abstract class BinarySearchTree<T extends Node<T>> {
     }
 
     /**
-     * Standard BST search. Implemented as recursive function in {@link #search(int, Node)} (int, Node, Stack)}.
+     * Standard BST search. Implemented as recursive function in {@link #search(int, Node)} (int, greed.datastruct.Node, Stack)}.
      * @param key key of the node to be searched (Will return null if the node is not found)
      * @return returns the key if present in the tree else NULL.
      */
@@ -230,7 +232,7 @@ abstract class BinarySearchTree<T extends Node<T>> {
     }
 
     /**
-     * Standard BST range search. Implemented as recursive function in {@link #searchRange(int, int, Node, List)} (int, Node, Stack)}.
+     * Standard BST range search. Implemented as recursive function in {@link #searchRange(int, int, Node, List)} (int, greed.datastruct.Node, Stack)}.
      * @param smallKey lower bound of the range.
      * @param bigKey upper bound of the key.
      * @return returns keys that are in the range smallKey ≤key ≤bigKey.

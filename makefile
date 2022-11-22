@@ -1,1 +1,1 @@
-javac avltree.java
+javac greed.datastruct.Main.java
