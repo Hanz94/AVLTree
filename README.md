@@ -265,4 +265,4 @@ Represents a BST node.
 
  * **Parameters:** `<N>` — generic parameter for any concrete node type that inherited from abstract {@link Node greed.datastruct.Node.class}. {@link AVLNode greed.datastruct.AVLNode}
 
-     *           is an example for a value N can take.
+* is an example for a value N can take.
